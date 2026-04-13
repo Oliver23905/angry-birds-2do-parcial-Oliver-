@@ -1,7 +1,11 @@
 ﻿    using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Resortera : MonoBehaviour
 {
+   private Controles imputActions;
+    
+    
     private SpringJoint2D spring;
     private Rigidbody2D rb;
 
@@ -16,19 +20,20 @@ public class Resortera : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spring = GetComponent<SpringJoint2D>();
+        imputActions = new Controles();
     }
 
     void Start()
     {
-        // Posición exacta inicial
+        
         transform.position = slingshotPoint.position;
 
-        // Configurar resorte
+       
         spring.autoConfigureDistance = false;
         spring.distance = 0;
         spring.enabled = false;
 
-        // Estado inicial
+        
         rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
@@ -38,7 +43,7 @@ public class Resortera : MonoBehaviour
         if (hasLaunched) return;
 
         isDragging = true;
-        spring.enabled = false; // 🔥 IMPORTANTE: no usar resorte mientras arrastras
+        spring.enabled = false; 
     }
 
     void OnMouseDrag()
@@ -64,10 +69,10 @@ public class Resortera : MonoBehaviour
         isDragging = false;
         hasLaunched = true;
 
-        // Activar física
+        
         rb.bodyType = RigidbodyType2D.Dynamic;
 
-        // Conectar resorte JUSTO al soltar
+        
         spring.connectedAnchor = slingshotPoint.position;
         spring.enabled = true;
 
